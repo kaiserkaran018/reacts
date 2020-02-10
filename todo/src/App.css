@@ -1,0 +1,117 @@
+.App {
+  text-align: center;
+}
+
+.done {
+  text-decoration: underline line-through;
+  color: gray;
+}
+
+.none {
+  text-decoration: none;
+  color: black;
+}
+
+ul li {
+  list-style: none;
+}
+
+.Head-Content {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+label {
+  padding: 5px;
+  margin: 2px;
+  text-decoration: underline;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(8px + 2vmin);
+  color: cyan;
+}
+
+.content {
+  color: #282c34;
+  font-size: medium;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.Content-header {
+  color: black;
+  font-size: medium;
+  text-align: center;
+}
+
+body {
+  background-image: linear-gradient(to right, cyan, rgb(98, 198, 255));
+}
+
+.title {
+  color: black;
+  font-size: medium;
+  text-align: center;
+}
+
+input[type="text"] {
+  border: none;
+  background-color: transparent;
+}
+
+input[type="text"].text {
+  border: none;
+  background-color: transparent;
+  width: 100px;
+}
+
+input[type="text"]:hover {
+  border: 1px solid rebeccapurple;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+input[type="text"]:active {
+  border: 1px solid rebeccapurple;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+input[type="text"]:focus {
+  border: 1px solid rebeccapurple;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+button {
+  border-radius: 50%;
+  margin: 4px;
+}
+
+.addButton:hover {
+  border-radius: 50%;
+  margin: 4px;
+  cursor: cell;
+}
+
+.deleteButton:hover {
+  border-radius: 50%;
+  margin: 4px;
+  cursor: no-drop;
+}
+
+input[type="checkbox"] {
+  background-color: transparent;
+  transform-style: flat;
+}
+
+.listTodo {
+  text-align: center;
+  font-family: sans-serif;
+}
