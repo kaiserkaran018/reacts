@@ -30,23 +30,28 @@ class App extends Component {
     });
     this.setState({
       userid: userid,
-      editing: !this.state.editing,
       name: name
     });
 
     const res = await axios.get(`http://localhost:8080/data?id=${userid}`);
-    this.setState({
-      res: res.data.result,
-      id: '',
-      username: ''
-    });
-
     const resUser = await axios.get(`http://localhost:8080/userdetials?id=${this.state.userid}`);
-    this.setState({
-      text: '',
-      userid: userid,
-      resUser: resUser.data.result
-    });
+    const loginname = resUser.data.result[0].username;
+    console.log(loginname, name);
+    if (loginname === name) {
+      this.setState({
+        editing: !this.state.editing,
+        res: res.data.result,
+        id: '',
+        username: '',
+        text: '',
+        userid: userid,
+        resUser: resUser.data.result
+      });
+    } else {
+      alert('Enter Valid User Name');
+    }
+
+
 
   }
 
