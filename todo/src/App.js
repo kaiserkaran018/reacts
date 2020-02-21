@@ -1,6 +1,7 @@
 import React from "react";
 import TodoList from './TodoList';
 import "./App.css";
+import Button from "./Button";
 
 class TodoApp extends React.Component {
   constructor(props) {
@@ -14,31 +15,30 @@ class TodoApp extends React.Component {
       ],
       text: ""
     };
-    this.handleTextChange = this.handleTextChange.bind(this);
-    this.handleAddItem = this.handleAddItem.bind(this);
-    this.markItemCompleted = this.markItemCompleted.bind(this);
-    this.handleDeleteItem = this.handleDeleteItem.bind(this);
   }
 
-  handleTextChange(event) {
+  handleTextChange = (event) => {
+    event.preventDefault();
     this.setState({ text: event.target.value });
   }
 
-  handleAddItem(event) {
-    event.preventDefault();
+  handleAddItem = (e) => {
+    e.preventDefault();
     var newItem = {
       id: Date.now(),
       text: this.state.text,
       done: false
     };
     console.log(newItem.id);
-    this.setState(prevState => ({
-      items: prevState.items.concat(newItem),
-      text: ""
-    }));
+    if (this.state.text) {
+      this.setState(prevState => ({
+        items: prevState.items.concat(newItem),
+        text: ""
+      }));
+    }
   }
 
-  markItemCompleted(itemId) {
+  markItemCompleted = (itemId) => {
     var updatedItems = this.state.items.map(item => {
       if (itemId === item.id) {
         item.done = !item.done;
@@ -50,7 +50,7 @@ class TodoApp extends React.Component {
     });
   }
 
-  handleDeleteItem(itemId) {
+  handleDeleteItem = (itemId) => {
     var updatedItems = this.state.items.filter(item => {
       return item.id !== itemId;
     });
@@ -60,7 +60,7 @@ class TodoApp extends React.Component {
   }
 
   render() {
-    return (<div className="App">
+    return (<div className="App">   {/* Main PAge Display */}
       <h3 className="App-header">(: MY TO-DO LIST :)</h3>
       <div className="Head-Content">
         Remember Your Daily Work By To-do :)(:
@@ -68,7 +68,7 @@ class TodoApp extends React.Component {
       <form>
         <div>
           <input type="text" placeholder="Enter new to-do task...." onChange={this.handleTextChange} value={this.state.text} />
-          <button className="addButton" onClick={this.handleAddItem} disabled={!this.state.text}> + </button>
+          <Button onClick={this.handleAddItem}> + </Button>     {/* Button Component Call */}
         </div>
       </form>
       <div className="listTodo">
@@ -79,3 +79,7 @@ class TodoApp extends React.Component {
 }
 
 export default TodoApp;
+
+
+
+// <button className="addButton" onClick={this.handleAddItem} disabled={!this.state.text}> + </button>

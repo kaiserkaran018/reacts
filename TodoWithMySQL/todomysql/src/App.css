@@ -1,0 +1,24 @@
+.App {
+  text-align: center;
+}
+
+input {
+  margin: 10px;
+  padding: 10px;
+}
+
+.lister {
+  left: -10%;
+}
+
+ul li {
+  list-style: none;
+  text-align: center;
+}
+
+.logoffbtn {
+  width: 80px;
+  height: 25px;
+  margin: 0px;
+  padding: 0px;
+}

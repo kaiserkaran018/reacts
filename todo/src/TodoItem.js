@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import Button from './Button';
 
 class TodoItem extends React.Component {
     constructor(props) {
@@ -59,12 +60,12 @@ class TodoItem extends React.Component {
                             this.state.textChange
                         }
                     </label>
-                    <button type="button" className="deleteButton" onClick={this.deleteItem}> - </button>
-                    <button type="button" onClick={this.handleEditing}> Edit </button>
+                    <Button onClick={this.deleteItem}> - </Button>
+                    <Button onClick={this.handleEditing}> Edit </Button>
                 </div>
                 <div style={edit}>
                     <input type="text" onChange={this.handleEdit} onKeyDownCapture={this.handleKey} className="text" value={this.state.textChange} />
-                    <button type="button" onClick={this.handleKeyDone}> Done </button>
+                    <Button onClick={this.handleKeyDone}> Done </Button>
                 </div>
             </li>
         );
@@ -72,3 +73,8 @@ class TodoItem extends React.Component {
 }
 
 export default TodoItem
+
+
+// <button type="button" onClick={this.handleKeyDone}> Done </button>
+// <button type="button" className="deleteButton" onClick={this.deleteItem}> - </button> 
+// <button type="button" onClick={this.handleEditing}> Edit </button>
