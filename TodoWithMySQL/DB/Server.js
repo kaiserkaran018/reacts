@@ -37,10 +37,24 @@ app.get('/data', urlencoded, function (req, res) {
     var sql = "SELECT todoid,todomessages FROM usertodos WHERE userid = ?;"
     con.query(sql, data, function (err, result) {
         if (err) {
-            res.json({ error: err });
+            res.send({ error: err });
         } else {
             console.log('Data Fetched By Id');
-            res.json({ result });
+            res.send({ result });
+        }
+    });
+
+});
+
+app.get('/userdetials', urlencoded, function (req, res) {
+    var data = parseInt(req.query.id);
+    var sql = "SELECT * FROM userdetials WHERE userid = ?;"
+    con.query(sql, data, function (err, result) {
+        if (err) {
+            res.send({ error: err });
+        } else {
+            console.log('Data Fetched By Id');
+            res.send({ result });
         }
     });
 

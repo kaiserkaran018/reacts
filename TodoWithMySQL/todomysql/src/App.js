@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import UserName from './UserName';
 import axios from 'axios'
 import List from './List';
 import './App.css';
@@ -12,7 +13,8 @@ class App extends Component {
       username: '',
       editing: true,
       text: '',
-      userid: ''
+      userid: '',
+      resUser: ''
     }
   }
 
@@ -37,6 +39,13 @@ class App extends Component {
       res: res.data.result,
       id: '',
       username: ''
+    });
+
+    const resUser = await axios.get(`http://localhost:8080/userdetials?id=${this.state.userid}`);
+    this.setState({
+      text: '',
+      userid: userid,
+      resUser: resUser.data.result
     });
 
   }
@@ -87,7 +96,6 @@ class App extends Component {
 
     document.title = 'Todo';
 
-    // const data = this.state.res;
     const view = {};
     const hide = {};
 
@@ -110,7 +118,8 @@ class App extends Component {
         </div>
         <div style={view}>
           <h2>Todo List</h2>
-          {this.state.name ? <h4> Welcome {this.state.name}</h4> : null} <input className="logoffbtn" type="submit" value="LogOff" onClick={this.LogOff} />
+          <UserName username={this.state.resUser} />
+          <input className="logoffbtn" type="submit" value="LogOff" onClick={this.LogOff} />
           <form onSubmit={this.handleAddTodo}>
             <input type="text" name="message" value={this.state.text} onChange={this.handleTextChange.bind(this)} placeholder="Enter Your Todo Message" required />
             <button>Add Todo</button><br />
