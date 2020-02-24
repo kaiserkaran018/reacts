@@ -44,7 +44,7 @@ class App extends Component {
         username: '',
         text: '',
         userid: userid,
-        resUser: resUser.data.result
+        resUser: resUser.data
       });
     } else {
       alert('Enter Valid User Name');
