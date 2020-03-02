@@ -1,0 +1,17 @@
+ul li {
+  list-style: none;
+  margin: 4px;
+}
+
+body {
+  text-align: center;
+}
+
+input {
+  margin: 5px;
+  padding: 5px;
+}
+
+button {
+  margin: 5px;
+}
