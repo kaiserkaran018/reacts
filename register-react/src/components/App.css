@@ -1,0 +1,15 @@
+.head {
+    margin: 5px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: xx-large;
+    background-color: antiquewhite;
+}
+
+.registerForm {
+    text-align: center;
+    margin: 5px;
+    margin-top: 70px;
+    padding: 10px;
+}
