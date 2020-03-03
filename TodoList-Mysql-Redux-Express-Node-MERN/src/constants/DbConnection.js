@@ -15,10 +15,10 @@ export const userPost = async (props) => {
             dispatch({ type: 'NEW_ADDED', data: res.data });
             return res.data;
         } else {
-            alert(`Not an Valid User....`);
+            console.log(`Not an Valid User....`);
         }
     } catch (error) {
-        alert('error', error);
+        console.log('error', error);
     }
     return (null);
 }
@@ -73,7 +73,7 @@ export const todoUpdate = async (props) => {
         })
         dispatch({ type: 'NEW_ADDED', data: res.data });
     } catch (error) {
-        alert(error);
+        console.log('error');
     }
 }
 

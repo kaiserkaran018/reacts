@@ -17,11 +17,20 @@ class AddTodo extends Component {
         let id = e.target.elements.id.value;
         let user_Name = e.target.elements.user_Name.value;
         let passArray = [id, user_Name, this.props.dispatch];
-        await DbConnection.userPost(passArray);
-        this.setState({
-            id: id,
-            editing: false
-        })
+        const response = await DbConnection.userPost(passArray);
+        console.log('response in login', response);
+        if (response) {
+            this.setState({
+                id: id,
+                editing: false
+            })
+        } else {
+            alert('Enter Valid User Name (or) User Id')
+            this.setState({
+                id: id,
+                editing: true
+            })
+        }
     }
 
     // handleLogOff = (e) => {
