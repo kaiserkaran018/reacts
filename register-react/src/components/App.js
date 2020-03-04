@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import RegisterSuccess from './RegisterSuccess';
+import Index from './index';
 
 export default class App extends Component {
     constructor() {
@@ -12,42 +13,15 @@ export default class App extends Component {
             confirmPassword: '',
             mailId: '',
             phoneNumber: '',
-            editing: true
+            editing: true,
+            registered: false,
+            changeOver: null
         }
     }
 
-    handleUserName = (e) => {
-        e.preventDefault();
+    handleTextChanges = (e) => {
         this.setState({
-            userName: e.target.value
-        })
-    }
-
-    handlePassword = (e) => {
-        e.preventDefault();
-        this.setState({
-            password: e.target.value
-        })
-    }
-
-    handleConfirmPassword = (e) => {
-        e.preventDefault();
-        this.setState({
-            confirmPassword: e.target.value
-        })
-    }
-
-    handleMailId = (e) => {
-        e.preventDefault();
-        this.setState({
-            mailId: e.target.value
-        })
-    }
-
-    handlePhoneNumber = (e) => {
-        e.preventDefault();
-        this.setState({
-            phoneNumber: e.target.value
+            [e.target.name]: e.target.value
         })
     }
 
@@ -62,6 +36,15 @@ export default class App extends Component {
         })
     }
 
+    handleChange = (e) => {
+        e.preventDefault();
+        this.setState({
+            changeOver: true,
+            registered: false,
+            editing: false
+        })
+    }
+
     handleRegisterSubmit = async (e) => {
         e.preventDefault();
         let userName = this.state.userName;
@@ -69,58 +52,93 @@ export default class App extends Component {
         let confirmPassword = this.state.confirmPassword;
         let mailId = this.state.mailId;
         let phoneNumber = this.state.phoneNumber;
-        if (password === confirmPassword) {
-            const isEmailExist = await axios.get(`http://localhost:8080/user_Mail_Check?mailId=${mailId}`);
-            console.log('is Email ', isEmailExist);
-            if (isEmailExist.data.length === 0) {
-                await axios.post('http://localhost:8080/user_Details_Post', {
-                    "userName": userName,
-                    "password": password,
-                    "mailId": mailId,
-                    "phoneNumber": phoneNumber
-                });
+        let validate = '^[a-zA-Z0-9]+@+[a-zA-Z0-9]+.+[A-z]'
+        if (mailId.match(validate)) {
+            if (password === confirmPassword) {
+                const isEmailExist = await axios.get(`http://localhost:8080/user_Mail_Check?mailId=${mailId}`);
+                if (isEmailExist.data.length === 0) {
+                    await axios.post('http://localhost:8080/user_Details_Post', {
+                        "userName": userName,
+                        "password": password,
+                        "mailId": mailId,
+                        "phoneNumber": phoneNumber
+                    });
+                    this.setState({
+                        userName: userName,
+                        mailId: mailId,
+                        editing: false,
+                        registered: true
+                    })
+                } else if (isEmailExist.data[0].userMailId === mailId) {
+                    alert('Email Already Exists');
+                    this.setState({
+                        mailId: ''
+                    })
+                }
+            } else {
+                alert('Password & Confirm Password Mismatch');
                 this.setState({
-                    userName: userName,
-                    mailId: mailId,
-                    editing: false
+                    password: '',
+                    confirmPassword: ''
                 })
-            } else if (isEmailExist.data[0].userMailId === mailId) {
-                alert('Email Already Exists');
             }
         } else {
-            alert('Password & Confirm Password Mismatch');
-            this.setState({
-                password: '',
-                confirmPassword: ''
-            })
+            alert('Enter Valid Mail id');
         }
     }
 
     render() {
         return (
             <div>
-                {(this.state.editing)
-                    ?
-                    (<div>
-                        <div className="head">
-                            Register Page
-                    </div>
-                        <div className="form">
-                            <form className="registerForm" onSubmit={this.handleRegisterSubmit}>
-                                <input type="text" name="userName" placeholder="Enter User Name" value={this.state.userName} onChange={this.handleUserName} required /><br /><br />
-                                <input type="password" name="password" placeholder="Enter Password" value={this.state.password} onChange={this.handlePassword} required /><br /><br />
-                                <input type="password" name="confirmPassword" placeholder="Enter Confirm Password" value={this.state.confirmPassword} onChange={this.handleConfirmPassword} required /><br /><br />
-                                <input type="mail" name="mailId" placeholder="Enter Mail Id" value={this.state.mailId} onChange={this.handleMailId} required /><br /><br />
-                                <input type="number" name="phoneNumber" placeholder="Enter Phone Number" value={this.state.phoneNumber} onChange={this.handlePhoneNumber} required /><br /><br />
-                                <button>Submit</button>
-                                <button onClick={this.handleReset}>Reset</button>
-                            </form>
-                        </div>
-                    </div>)
-                    :
-                    (<div>
-                        <RegisterSuccess userName={this.state.userName} mailId={this.state.mailId} />
-                    </div>)
+                {
+                    (this.state.editing) ?
+                        (
+                            <div>
+                                <div className="head">
+                                    Register Page
+                            </div>
+                                <div className="midContent">
+                                    <form onSubmit={this.handleRegisterSubmit}>
+                                        <input type="text" name="userName" placeholder="Enter User Name" value={this.state.userName} onChange={this.handleTextChanges} required /><br /><br />
+                                        <input type="password" name="password" placeholder="Enter Password" value={this.state.password} onChange={this.handleTextChanges} required /><br /><br />
+                                        <input type="password" name="confirmPassword" placeholder="Enter Confirm Password" value={this.state.confirmPassword} onChange={this.handleTextChanges} required /><br /><br />
+                                        <input type="mail" name="mailId" placeholder="Enter Mail Id" value={this.state.mailId} onChange={this.handleTextChanges} required /><br /><br />
+                                        <input type="number" name="phoneNumber" placeholder="Enter Phone Number" value={this.state.phoneNumber} onChange={this.handleTextChanges} required /><br /><br />
+                                        <button>Submit</button>
+                                        <button onClick={this.handleReset}>Reset</button>
+                                        <button onClick={this.handleChange}>Home</button>
+                                    </form>
+                                </div>
+                            </div>
+                        )
+                        :
+                        (
+                            null
+                        )
+                }
+                {
+                    (this.state.registered) ?
+                        (
+                            <div>
+                                <RegisterSuccess userName={this.state.userName} mailId={this.state.mailId} />
+                            </div>
+                        )
+                        :
+                        (
+                            null
+                        )
+                }
+                {
+                    (this.state.changeOver) ?
+                        (
+                            <div>
+                                <Index />
+                            </div>
+                        )
+                        :
+                        (
+                            null
+                        )
                 }
             </div>
         )
