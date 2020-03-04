@@ -42,8 +42,6 @@ app.get('/user_Mail_Check', urlencoded, (req, res) => {
             console.log('error in get');
             return res.send('error');
         } else {
-            console.log('mailid', mailId);
-            console.log('in get pass', result);
             return res.send(result);
         }
     })
@@ -72,6 +70,30 @@ app.post('/user_Details_Post', urlencoded, async (req, res) => {
         }
     })
 })
+
+app.get('/user_Login', urlencoded, (req, res) => {
+    let userName = req.query.userName;
+    let password = req.query.password;
+    let sql = 'SELECT * FROM userRegisterationDetails WHERE userMailId=(?)';
+
+    con.query(sql, userName, async (err, result) => {
+        if (err) {
+            return res.send('error');
+        } else {
+            if (result.length !== 0) {
+                const pass = await bcrypt.compare(password, result[0].userPassword);
+                if (pass) {
+                    return res.send(result);
+                } else {
+                    return res.send(false);
+                }
+            } else {
+                return res.send(true);
+            }
+        }
+    })
+})
+
 
 
 
